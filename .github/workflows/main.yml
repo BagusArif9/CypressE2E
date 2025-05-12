@@ -18,10 +18,10 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          project: ./cypress/infinix
+          project: ./cypress/e2e/infinix
 
       - name: Run Cypress tests for note_50.pro folder
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          project: ./cypress/note_50_pro
+          project: ./cypress/e2e/note_50_pro
