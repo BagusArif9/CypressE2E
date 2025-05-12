@@ -1,34 +1,27 @@
-name: Run Cypress Tests (linear 1)
+name: Run Cypress Tests (Multiple Folders)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          
-      - name: Install dependencies
-        run: npm install 
-
-      - name: Ensure Google Chrome is installed
-        run: |
-          google-chrome --version || sudo apt-get update && sudo apt-get install -y google-chrome-stable
-
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v6
 
-      - name: Run all Cypress tests
-        run: node run_all_test.js
+      - name: Run Cypress tests for infinitx folder
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          project: ./cypress/infinix
+
+      - name: Run Cypress tests for note_50.pro folder
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          project: ./cypress/note_50_pro
