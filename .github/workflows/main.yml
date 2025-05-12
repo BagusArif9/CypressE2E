@@ -11,15 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          
+      - name: Install dependencies
+        run: npm install 
+
+      - name: Ensure Google Chrome is installed
+        run: |
+          google-chrome --version || sudo apt-get update && sudo apt-get install -y google-chrome-stable
 
       - name: Checkout
         uses: actions/checkout@v4
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v6
 
       - name: Run all Cypress tests
         run: node run_all_test.js
