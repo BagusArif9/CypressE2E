@@ -14,14 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Cypress tests for infinitx folder
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          project: ./cypress/e2e/infinix
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Run Cypress tests for note_50.pro folder
+      - name: Run Cypress tests for infinix folder
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          project: ./cypress/e2e/note_50_pro
+          spec: cypress/e2e/infinix/*.cy.js
+
+      - name: Run Cypress tests for note_50_pro folder
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          spec: cypress/e2e/note_50_pro/*.cy.js
