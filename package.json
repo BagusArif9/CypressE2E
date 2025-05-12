@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "cypress": "^14.3.0",
+    "cypress-real-events": "^1.14.0",
+    "regenerator-runtime": "^0.14.1"
+  }
+}
