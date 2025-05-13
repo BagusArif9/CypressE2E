@@ -62,7 +62,7 @@ describe('Infinix SearchBar Animation', () => {
   
       // 7. Scroll down for 2 seconds to ensure all elements are visible
       cy.scrollTo('bottom', { duration: 2000 });
-      cy.wait(2000); // Additional wait after scrolling
+      cy.wait(1000); // Additional wait after scrolling
   
       // 8. Verify specific product recommendations
       const expectedProducts = [

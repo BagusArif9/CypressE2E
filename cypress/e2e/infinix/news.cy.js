@@ -30,7 +30,7 @@ describe('Infinix Indonesia - NOTE 50 Navigation Test', () => {
     });
   
     it('Should correctly navigate through news articles', () => {
-      cy.wait(2000); // Initial load wait
+      cy.wait(1000); // Initial load wait
   
       // Scroll down until title is visible or max scroll attempts reached
       const maxScrollAttempts = 5;
@@ -69,7 +69,7 @@ describe('Infinix Indonesia - NOTE 50 Navigation Test', () => {
   
           // Go back and wait for main page to reload
           cy.go('back');
-          cy.wait(3000); // Longer wait for page reconstruction
+          cy.wait(2000); // Longer wait for page reconstruction
   
           // Re-scroll to bring news items back into view
           if (index < $newsItems.length - 1) {
@@ -87,8 +87,8 @@ describe('Infinix Indonesia - NOTE 50 Navigation Test', () => {
         .should('be.visible')
         .click({ force: true });
       cy.scrollTo('bottom', { duration: 2000 });
-      cy.wait(2000);
+      cy.wait(1000);
       cy.go('back');
-      cy.wait(2000);
+      cy.wait(1000);
     });
   });

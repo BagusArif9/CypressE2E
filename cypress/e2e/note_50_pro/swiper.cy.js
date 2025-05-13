@@ -23,12 +23,12 @@ describe('Testing Swiper Component in NOTE 50 Pro', () => {
         }
       });
   
-      cy.wait(3000);
+      cy.wait(1000);
   
       // Scroll to swiper section
       cy.scrollTo(0, 9800, { duration: 3000 });
       cy.get('.swiper-sec-8', { timeout: 10000 });
-      cy.wait(3000);
+      cy.wait(1000);
   
       // Stop autoplay
       cy.window().then((win) => {

@@ -1,4 +1,4 @@
-name: Run Cypress Tests (Linear ke 3)
+name: Run Cypress Tests (Linear ke 1)
 
 on:
   push:
@@ -17,13 +17,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install sysstat
+      - name: Start sysstat monitoring
         run: |
           sudo apt-get update
           sudo apt-get install -y sysstat
-
-      - name: Start sysstat monitoring
-        run: |
           mkdir -p monitoring
           sar -o monitoring/sysstat.dat 1 300 > /dev/null 2>&1 &
           echo $! > monitoring/sar_pid.txt

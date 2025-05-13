@@ -31,7 +31,7 @@ describe('Infinix Indonesia - NOTE 50 Navigation Test', () => {
     });
   
     it('Should correctly navigate to NOTE 50 page', () => {
-        cy.wait(2000); // Allow initial load
+        cy.wait(1000); // Allow initial load
       
         // First verify the menu container exists
         cy.get('.header__menu__', { timeout: 20000 })
@@ -72,6 +72,5 @@ describe('Infinix Indonesia - NOTE 50 Navigation Test', () => {
         cy.url({ timeout: 30000 })
           .should('include', '/NOTE-50')
           .and('not.include', 'HOT-50');
-      
       });
   });

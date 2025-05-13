@@ -23,7 +23,7 @@ describe('Testing GSAP Scroll Animation untuk NOTE 50 Pro', () => {
         cy.get('.reject').click();
       }
     });
-    cy.wait(3000);
+    cy.wait(2000);
   });
 
   it('Menguji pin-sec5-pc dan transformasi phone-container & text-container', () => {
