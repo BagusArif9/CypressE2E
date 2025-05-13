@@ -1,4 +1,4 @@
-name: Run Cypress Tests (Linear 3)
+name: Run Cypress Tests (Linear 1)
 
 on:
   push:
@@ -17,6 +17,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Start sysstat monitoring
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sysstat
+          mkdir -p monitoring
+          sar -o monitoring/sysstat.dat 1 300 > /dev/null 2>&1 &
+          echo $! > monitoring/sar_pid.txt
+
       - name: Run Cypress tests for infinix folder
         uses: cypress-io/github-action@v6
         with:
@@ -28,3 +36,15 @@ jobs:
         with:
           browser: chrome
           spec: cypress/e2e/note_50_pro/*.cy.js
+
+      - name: Stop sysstat and export JSON
+        run: |
+          kill $(cat monitoring/sar_pid.txt) || true
+          sleep 2
+          sadf -j monitoring/sysstat.dat -- -u -r -b > monitoring/report.json
+
+      - name: Upload Monitoring Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitoring-report
+          path: monitoring/report.json
