@@ -46,7 +46,7 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
 
     // Scroll to initial and trigger points
     cy.scrollTo(0, 8800, { duration: 2000 });
-    cy.wait(1000);
+    cy.wait(2000);
     cy.scrollTo(0, 9000, { duration: 2000 });
     cy.wait(1000);
 
@@ -55,7 +55,7 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
       cy.scrollTo(0, y, { duration: 200 });
       cy.wait(100);
     }
-    cy.wait(2000); // Allow GSAP animation to complete
+    cy.wait(3000); // Allow GSAP animation to complete
 
     cy.get('.title', { timeout: 15000 })
       .should('be.visible')
