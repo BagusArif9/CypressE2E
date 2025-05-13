@@ -1,4 +1,4 @@
-name: Run Cypress Tests (Multiple Folders)
+name: Run Cypress Tests (Linear 2)
 
 on:
   push:
