@@ -1,6 +1,9 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  viewportWidth: 1000,
+  viewportHeight: 660,
+
   e2e: {
     setupNodeEvents(on, config) {
       on('before:browser:launch', (browser = {}, launchOptions) => {
@@ -9,7 +12,7 @@ module.exports = defineConfig({
           launchOptions.args.push('--disable-dev-shm-usage');
           launchOptions.args.push('--disable-gpu');
         }
-        
+
         return launchOptions;
       });
     },
