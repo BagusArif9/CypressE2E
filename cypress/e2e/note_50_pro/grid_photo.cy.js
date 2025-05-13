@@ -7,19 +7,17 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
       }
     });
 
-    // Handle semua uncaught exception (termasuk Cookies not defined)
     Cypress.on('uncaught:exception', (err) => {
       if (
         err.message.includes('play() was interrupted') ||
         err.message.includes('Cookies is not defined')
       ) {
-        return false; // prevent test from failing
+        return false;
       }
       return true;
     });
 
-    // Tunggu body muncul, baru klik tombol cookie jika ada
-    cy.get('body', { timeout: 5000 }).then(($body) => {
+    cy.get('body', { timeout: 3000 }).then(($body) => {
       if ($body.find('.reject').length) {
         cy.get('.reject').click();
         cy.log('❌ Cookies rejected');
@@ -29,28 +27,59 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
     });
   });
 
-  it('Menguji perubahan detail transform dan opacity info-grid berdasarkan scroll', () => {
-    const baseScroll = 1500;
-    const offset = 200;
+  it('Scroll perlahan dan validasi GSAP info-grid 1-9 satu per satu', () => {
+    const startScroll = 1600;
+    const stepSize = 50;
+    const maxScroll = 5000;
+    let currentIndex = 1;
+    const totalGrids = 9;
 
-    for (let i = 1; i <= 9; i++) {
-      const scrollY = baseScroll + (i - 1) * offset;
-      const className = `.info-grid.info-grid-${i}`;
+    // ✅ Scroll ke awal agar .core-img muncul
+    cy.scrollTo(0, startScroll, { duration: 1000 });
+    cy.wait(1000);
+    cy.get('#main-part > .core-img', { timeout: 8000 })
+      .should('exist')
+      .and('be.visible');
 
-      cy.scrollTo(0, scrollY, { duration: 1000 });
-      // cy.wait(100); // waktu animasi
+    cy.log('✅ .core-img terlihat, mulai scroll perlahan untuk info-grid 1-9');
 
-      cy.get(className, { timeout: 5000 }).then(($el) => {
-        const transform = $el.css('transform');
-        const opacity = $el.css('opacity');
-        const position = $el.css('position');
+    // ✅ Scroll perlahan dari startScroll hingga maxScroll
+    cy.wrap(null).then(() => {
+      let scrollY = startScroll;
 
-        cy.log(`🧪 ${className} | ScrollY: ${scrollY} | Transform: ${transform} | Opacity: ${opacity}`);
+      function scrollStep() {
+        if (currentIndex > totalGrids || scrollY > maxScroll) {
+          cy.log('✅ Semua info-grid selesai divalidasi');
+          return;
+        }
 
-        expect(transform).to.match(/matrix|translate/);
-        expect(opacity).to.not.eq('0');
-        expect(position).to.not.eq('fixed');
-      });
-    }
+        const className = `.info-grid.info-grid-${currentIndex}`;
+        cy.scrollTo(0, scrollY, { duration: 200 });
+        cy.wait(200);
+
+        return cy.get('body').then(() => {
+          cy.get(className).then(($el) => {
+            const opacity = parseFloat($el.css('opacity') || '0');
+
+            if (opacity > 0) {
+              const transform = $el.css('transform');
+              const position = $el.css('position');
+
+              cy.log(`🧪 ${className} muncul | ScrollY: ${scrollY} | Opacity: ${opacity} | Transform: ${transform}`);
+              expect(opacity).to.be.greaterThan(0);
+              expect(transform).to.match(/matrix|translate/);
+              expect(position).to.not.eq('fixed');
+
+              currentIndex++; // lanjut ke info-grid berikutnya
+            }
+
+            scrollY += stepSize;
+            return scrollStep(); // lanjut scroll
+          });
+        });
+      }
+
+      return scrollStep();
+    });
   });
 });

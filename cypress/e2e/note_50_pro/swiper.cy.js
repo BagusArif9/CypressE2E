@@ -17,7 +17,7 @@ describe('Testing Swiper Component in NOTE 50 Pro', () => {
       });
   
       // Handle cookie banner
-      cy.get('body', { timeout: 5000 }).then(($body) => {
+      cy.get('body', { timeout: 3000 }).then(($body) => {
         if ($body.find('.reject').length) {
           cy.get('.reject').click();
         }
