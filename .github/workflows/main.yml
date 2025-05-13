@@ -26,16 +26,13 @@ jobs:
           echo $! > monitoring/sar_pid.txt
 
       - name: Run Cypress tests for infinix folder
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          spec: cypress/e2e/infinix/*.cy.js
+        run: |
+          npx cypress run --browser chrome --spec "cypress/e2e/infinix/*.cy.js"
 
       - name: Run Cypress tests for note_50_pro folder
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          spec: cypress/e2e/note_50_pro/*.cy.js
+        run: |
+          npx cypress run --browser chrome --spec "cypress/e2e/note_50_pro/*.cy.js"
+
 
       - name: Stop sysstat and export JSON
         run: |
