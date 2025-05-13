@@ -48,7 +48,7 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
     cy.scrollTo(0, 8800, { duration: 2000 });
     cy.wait(2000);
     cy.scrollTo(0, 9000, { duration: 2000 });
-    cy.wait(1000);
+    cy.wait(2000);
 
     // Simulate gradual scroll for animation trigger
     for (let y = 8800; y <= 9000; y += 100) {
