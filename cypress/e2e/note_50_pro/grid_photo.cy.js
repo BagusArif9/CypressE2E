@@ -29,7 +29,7 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
 
   it('Scroll perlahan dan validasi GSAP info-grid 1-9 satu per satu', () => {
     const startScroll = 1600;
-    const stepSize = 50;
+    const stepSize = 60;
     const maxScroll = 5000;
     let currentIndex = 1;
     const totalGrids = 9;
