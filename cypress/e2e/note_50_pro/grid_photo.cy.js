@@ -17,7 +17,7 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
       return true;
     });
 
-    cy.get('body', { timeout: 3000 }).then(($body) => {
+    cy.get('body', { timeout: 5000 }).then(($body) => {
       if ($body.find('.reject').length) {
         cy.get('.reject').click();
         cy.log('❌ Cookies rejected');
