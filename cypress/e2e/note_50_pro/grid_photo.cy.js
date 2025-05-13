@@ -6,6 +6,7 @@ describe('Testing GSAP Scroll Animation per info-grid', () => {
         win.HTMLMediaElement.prototype.pause = () => {};
       }
     });
+    cy.wait(1000);
 
     Cypress.on('uncaught:exception', (err) => {
       if (
