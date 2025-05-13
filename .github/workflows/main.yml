@@ -25,21 +25,14 @@ jobs:
           sar -o monitoring/sysstat.dat 1 300 > /dev/null 2>&1 &
           echo $! > monitoring/sar_pid.txt
 
-      - name: Run Cypress tests for infinix folder
+      - name: Run Cypress tests (gabungan)
         run: |
           npx cypress run \
             --browser chrome \
             --headed \
-            --spec "cypress/e2e/infinix/*.cy.js" \
+            --spec "cypress/e2e/infinix/*.cy.js,cypress/e2e/note_50_pro/*.cy.js" \
             --config chromeWebSecurity=false
 
-      - name: Run Cypress tests for note_50_pro folder
-        run: |
-          npx cypress run \
-            --browser chrome \
-            --headed \
-            --spec "cypress/e2e/note_50_pro/*.cy.js" \
-            --config chromeWebSecurity=false
 
       - name: Stop sysstat and export JSON
         run: |
