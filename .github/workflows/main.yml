@@ -1,4 +1,4 @@
-name: Run Cypress Tests (Linear ke 2)
+name: Run Cypress Tests (Linear ke 1)
 
 on:
   push:
