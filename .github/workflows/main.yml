@@ -14,9 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Start sysstat monitoring
         run: |
           sudo apt-get update
@@ -26,13 +23,18 @@ jobs:
           echo $! > monitoring/sar_pid.txt
 
       - name: Run Cypress tests for infinix folder
-        run: |
-          npx cypress run --browser chrome --spec "cypress/e2e/infinix/*.cy.js"
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headed: true
+          spec: cypress/e2e/infinix/*.cy.js
 
       - name: Run Cypress tests for note_50_pro folder
-        run: |
-          npx cypress run --browser chrome --spec "cypress/e2e/note_50_pro/*.cy.js"
-
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headed: true
+          spec: cypress/e2e/note_50_pro/*.cy.js
 
       - name: Stop sysstat and export JSON
         run: |
