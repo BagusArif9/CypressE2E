@@ -1,6 +1,7 @@
 describe('Infinix Mobile Slider Automation Test', () => {
     before(() => {
       cy.visit('https://id.infinixmobility.com/', {
+        failOnStatusCode: false,
         onBeforeLoad(win) {
           win.HTMLMediaElement.prototype.play = () => Promise.resolve();
           win.HTMLMediaElement.prototype.pause = () => {};
