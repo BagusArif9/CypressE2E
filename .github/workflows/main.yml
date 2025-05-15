@@ -9,14 +9,18 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project:
+          - infinix
+          - note_50_pro
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: | 
-          npm ci
+        run: npm ci
 
       - name: Start sysstat monitoring
         run: |
@@ -26,20 +30,12 @@ jobs:
           sar -o monitoring/sysstat.dat 1 300 > /dev/null 2>&1 &
           echo $! > monitoring/sar_pid.txt
 
-      - name: Run Cypress tests for infinix folder
+      - name: Run Cypress tests for ${{ matrix.project }} folder
         run: |
           npx cypress run \
             --browser chrome \
             --headed \
-            --spec "cypress/e2e/infinix/*.cy.js" \
-            --config chromeWebSecurity=false
-
-      - name: Run Cypress tests for note_50_pro folder
-        run: |
-          npx cypress run \
-            --browser chrome \
-            --headed \
-            --spec "cypress/e2e/note_50_pro/*.cy.js" \
+            --spec "cypress/e2e/${{ matrix.project }}/*.cy.js" \
             --config chromeWebSecurity=false
 
       - name: Stop sysstat and export JSON
@@ -51,5 +47,29 @@ jobs:
       - name: Upload Monitoring Report
         uses: actions/upload-artifact@v4
         with:
-          name: monitoring-report
+          name: monitoring-report-${{ matrix.project }}
           path: monitoring/report.json
+
+  merge-reports:
+    needs: cypress-run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-reports
+
+      - name: Merge reports into zip file
+        run: |
+          mkdir -p merged
+          find all-reports -name "report.json" -exec cp {} merged/ \;
+          zip -j merged/combined-reports.zip merged/*
+
+      - name: Upload Combined Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-monitoring-reports
+          path: merged/combined-reports.zip
