@@ -1,7 +1,6 @@
 describe('Infinix Indonesia - NOTE 50 Navigation Test', () => {
     beforeEach(() => {
       cy.visit('https://id.infinixmobility.com/', {
-        failOnStatusCode: false,
         onBeforeLoad(win) {
           win.HTMLMediaElement.prototype.play = () => Promise.resolve();
           win.HTMLMediaElement.prototype.pause = () => {};

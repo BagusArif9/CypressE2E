@@ -1,7 +1,6 @@
 describe('Testing GSAP Scroll Animation untuk NOTE 50 Pro', () => {
   beforeEach(() => {
     cy.visit('https://id.infinixmobility.com/NOTE-50-Pro', {
-      failOnStatusCode: false,
       onBeforeLoad(win) {
         win.HTMLMediaElement.prototype.play = () => Promise.resolve();
         win.HTMLMediaElement.prototype.pause = () => {};
