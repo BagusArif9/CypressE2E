@@ -187,6 +187,6 @@ cy.get('.text-container', { timeout: 15000 })
       }
     });
   }
-});
+  });
   });
 });
