@@ -1,4 +1,4 @@
-name: Run Cypress Tests (Paralel 3)
+name: Run Cypress Tests (Paralel 4)
 
 on:
   push:
