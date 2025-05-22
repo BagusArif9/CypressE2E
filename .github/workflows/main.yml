@@ -32,11 +32,20 @@ jobs:
 
       - name: Run Cypress tests for ${{ matrix.project }} folder
         run: |
-          npx cypress run \
-            --browser chrome \
-            --headed \
-            --spec "cypress/e2e/${{ matrix.project }}/*.cy.js" \
-            --config chromeWebSecurity=false
+          # Hanya aktifkan video/screenshot untuk project 'infinix'
+          if [ "${{ matrix.project }}" = "infinix" ]; then
+            npx cypress run \
+              --browser chrome \
+              --headed \
+              --spec "cypress/e2e/${{ matrix.project }}/*.cy.js" \
+              --config video=true,videosFolder=cypress/videos/${{ matrix.project }},screenshotsFolder=cypress/screenshots/${{ matrix.project }},chromeWebSecurity=false
+          else
+            npx cypress run \
+              --browser chrome \
+              --headed \
+              --spec "cypress/e2e/${{ matrix.project }}/*.cy.js" \
+              --config video=false,chromeWebSecurity=false
+          fi
 
       - name: Stop sysstat and export JSON
         run: |
@@ -49,6 +58,15 @@ jobs:
         with:
           name: monitoring-report-${{ matrix.project }}
           path: monitoring/report.json
+
+      - name: Upload Cypress Videos and Screenshots (Infinix Only)
+        if: matrix.project == 'infinix'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-media-${{ matrix.project }}
+          path: |
+            cypress/videos/${{ matrix.project }}/*.mp4
+            cypress/screenshots/${{ matrix.project }}/*.png
 
   merge-reports:
     needs: cypress-run
